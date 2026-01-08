@@ -1,7 +1,7 @@
 # pdf generator.
 from fpdf import FPDF
 import pandas as pd
-
+from pandas.core.interchange.from_dataframe import primitive_column_to_ndarray
 
 # create the instance
 pdf = FPDF(orientation='P',
@@ -36,6 +36,10 @@ for index, row in df.iterrows():
     pdf.cell(0, 10, txt=row["Topic"], ln=1, align='R')
 
 
+    # adding lines to write on
+    for y in range(33,285,10):
+        pdf.line(10,y,200,y)
+
     # additional page count
     for x in range(row["Pages"] - 1):
         pdf.add_page()
@@ -44,5 +48,8 @@ for index, row in df.iterrows():
         pdf.ln(276)
         pdf.cell(0, 10, txt=row["Topic"], ln=1, align='R')
         pdf.set_font('Arial', style='i', size=10)
+
+        for y in range(10,285,10):
+            pdf.line(10,y,200,y)
 
 pdf.output('test.pdf')
